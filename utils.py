@@ -74,7 +74,7 @@ def get_model_confidence(logprobs):
     # Clip to [0, 1] range
     return float(np.clip(prob, 0.0, 1.0))
 
-def evidence_confidence(claim, topk=5):
+def evidence_confidence(claim, topk=1):
     """
     Compute evidence-side confidence for a claim using NLI.
 
@@ -114,6 +114,7 @@ def evidence_confidence(claim, topk=5):
         # DeBERTa NLI format: premise + hypothesis
         nli_input = f"{premise} [SEP] {claim}"
         scores = nli_pipe(nli_input)[0]
+        # scores = nli_pipe((premise, claim))[0]
 
         # Extract entailment and contradiction probabilities
         entail_score = 0.0
